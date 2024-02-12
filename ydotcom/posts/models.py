@@ -13,6 +13,7 @@ class Post(models.Model):
                                      null= False,
                                      )
     message= models.TextField(max_length= 140,
+                              default="",
                               blank=False,
                               null= False,
                               )

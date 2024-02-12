@@ -21,9 +21,11 @@
 <body>
     <main class="container d-flex justify-content-center align-items-center vh-100">
         <div class="col">
-            <div class="row m-4 header text-center">
-                <h1 class="col-lg-6">Y.com</h1>
-                <p class="col-lg-6">Let that sink in</p> 
+            <div class="row container text-center m-4 header d-grid gap-2 d-sm-flex">
+                <div class="col align-self-center">
+                    <h1 class="">Y.com</h1>
+                    <p class="">Let that sink in</p> 
+                </div>
             </div>
             <div class="row d-grid gap-2 d-sm-flex justify-content-center">
                 <a class="col btn btn-primary" href="{% url "Login" %}">Log in</a>

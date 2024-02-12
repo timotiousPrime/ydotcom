@@ -1,0 +1,9 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<ul>
+{% for u in users %}
+    <li><a href="{% url 'User_Posts' u.username  %}">{{ u.username }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

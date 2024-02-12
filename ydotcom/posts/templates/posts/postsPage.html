@@ -1,1 +1,10 @@
-<h1>{{ title }}</h1>
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<a  id="addPost" class="btn btn-primary">Add new Post</a>
+
+{{ form|crispy }}
+
+{% endblock %}

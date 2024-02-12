@@ -1,9 +1,10 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<ul>
+<ul class="list-group gap-2">
 {% for u in users %}
-    <li><a href="{% url 'User_Posts' u.username  %}">{{ u.username }}</a></li>
+    {% include 'partials/userCard.html' %}
+    
 {% endfor %}
 </ul>
 {% endblock %}

@@ -1,1 +1,22 @@
-<h1>{{ title }}</h1>
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-3">
+        <form method="POST" style="border: 1px solid black; margin: 4%; padding:10%; border-radius:1%;">
+          {% csrf_token %}
+          <fieldset class="form-group">
+            {{ form|crispy}}
+          </fieldset>
+          <center>
+            <button formmethod="post" formaction="{% url 'Register' %}" class="m-2 btn btn-primary" type="submit"><span class="glyphicon glyphicon-check"></span>sign up</button>
+          </center>
+          <br />
+          <sub><a href="{% url 'Login' %}">Already have an account?</a></sub>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

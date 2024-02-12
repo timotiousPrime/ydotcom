@@ -1,1 +1,36 @@
-<h1>{{ title }}</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y.com</title>
+    {% if messages %}
+    {% for message in messages %}
+   
+    <script>
+      alert("{{ message }}");
+    </script>
+   
+    {% endfor %}
+    {% endif %}
+</head>
+<body>
+    <main class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="col">
+            <div class="row m-4 header text-center">
+                <h1 class="col-lg-6">Y.com</h1>
+                <p class="col-lg-6">Let that sink in</p> 
+            </div>
+            <div class="row d-grid gap-2 d-sm-flex justify-content-center">
+                <a class="col btn btn-primary" href="{% url "Login" %}">Log in</a>
+                <a class="col btn btn-outline-secondary"  href="{% url "Register" %}">Register</a>
+            </div>  
+        </div>
+    </main>
+    
+</body>
+</html>

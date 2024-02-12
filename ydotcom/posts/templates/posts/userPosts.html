@@ -6,20 +6,22 @@
     <div class="col">
         <div class="row">
             {% if poster.username == user.username %}
-                <p>Welcome home {{ user.username }} </p>
+                <!-- <a href="#" id="addPost" class="btn btn-primary">Add new Post</a> -->
             {% endif %}
         </div>
-        <div class="row">
-            {% for day, posts in posts.items %}
-                <h2>{{ day }}</h2>
-                {% for post in posts %}
-                    <ul>
-                        {% include "posts/partials/postCard.html" %}
-                    </ul>
+        <div class="row container text-center m-4">
+            <div class="col justify-content-center">
+                {% for day, posts in posts.items %}
+                    <h2>{{ day }}</h2>
+                    {% for post in posts %}
+                        <ul>
+                            {% include "posts/partials/postCard.html" %}
+                        </ul>
+                    {% endfor %}
+                    {% empty %}
+                    <p>This user hasn't made any posts yet.</p>
                 {% endfor %}
-                {% empty %}
-                <p>This user hasn't made any posts yet.</p>
-            {% endfor %}
+            </div>
         </div>
     </div>
 </div>

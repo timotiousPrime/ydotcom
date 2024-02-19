@@ -12,7 +12,7 @@ from collections import defaultdict
 def userPostsList(request, username):
     if request.method == "GET":
         user = User.objects.get(username=username)
-        posts = Post.objects.filter(user = user.id)
+        posts = Post.objects.filter(user = user.id).order_by('-timestamp')
         form = PostForm()
 
         # group posts per day 

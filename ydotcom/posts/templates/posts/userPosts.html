@@ -1,4 +1,6 @@
 {% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
 <div class="container">
@@ -6,7 +8,10 @@
         <div class="row justify-content-center title">
             <h2>{{ poster.username }}'s Posts</h2>
             {% if poster.username == user.username %}
-            <a href="#" id="addPost" class="btn btn-primary">Add new Post</a>
+              <div class="container">
+                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newPostModal">New Post</a>
+                {% include "posts/partials/newPostModal.html" %}
+              </div>
             {% endif %}
           </div>
           <div class="timeline">

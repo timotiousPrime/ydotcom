@@ -9,9 +9,10 @@ class Post(models.Model):
                              blank= False,
                              null= False,
                              )
-    timestamp= models.DateTimeField(blank=False,
-                                     null= False,
-                                     )
+    timestamp= models.DateTimeField(auto_now_add=True,
+                                    blank=False,
+                                    null= False,
+                                    )
     message= models.TextField(max_length= 140,
                               default="",
                               blank=False,

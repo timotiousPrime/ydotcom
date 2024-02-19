@@ -20,10 +20,10 @@ class landingPage(View):
 class homePage(View):
     template_name = "main/homePage.html"
     title = "Home Page"
-    users = User.objects.all()
 
     def get(self, request):
+        users = User.objects.all()
         context = {"title": self.title,
-                   "users": self.users,
+                   "users": users,
                    }
         return render(request, self.template_name, context)

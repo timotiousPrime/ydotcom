@@ -18,10 +18,10 @@ def userPostsList(request, username):
         # group posts per day 
         qs = defaultdict(list)
         for query in posts:
-            post_date = query.timestamp.date
-            qs[post_date] += [query.message]
+            post_date = query.timestamp.date()
+            qs[post_date] += [query]
         qs = dict(qs)
-
+        
         context = {
             "title": username,  
             "posts": qs,

@@ -3,57 +3,32 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <div class="col-lg-8">
-        <div class="row justify-content-center title">
-            <h2>{{ poster.username }}'s Posts</h2>
-            {% if poster.username == user.username %}
-              <div class="container">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newPostModal">New Post</button>
-                {% include "posts/partials/newPostModal.html" %}
-              </div>
-            {% endif %}
-          </div>
-          <div class="timeline">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="timeline-container">
-                    <div class="timeline-end">
-                      <p>Now</p>
-                    </div>
-                    <div class=" timeline-continue">
-          
-                    {% for day, post_list in posts.items %}
-                      {% for post in post_list %}
-                        {% if forloop.counter|divisibleby:2 %}
-                            {% include 'posts/postCardRight.html'  %}
-                        {% else %} 
-                            {% include 'posts/postCardLeft.html' %}
-                        {% endif %}
-                        {% endfor %}
-                      {% include 'posts/timelineDate.html' %}
-                    {% empty %}
-                      <p>This user hasn't made any posts yet.</p>
-                    {% endfor %}
-                  </div>
-                  <div class="timeline-start">
-                    <p>Joined</p>
-                  </div>
-                  <div class="timeline-launch">
-                    <div class="timeline-box">
-                      <div class="timeline-text">
-                        <h3>First joined Y</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>
+<div class="container-fluid ">
+  <div class="row justify-content-center">
+    <div class="col-lg-4 p-2 position-relative ">
+      <h2 class=" text-center mb-5 ">{{ poster.username }}'s Posts</h2>
+      {% if poster.username == user.username %}
+        <button type="button" class="btn mt-4 btn-primary position-absolute bottom-0 start-50 translate-middle-x" data-bs-toggle="modal" data-bs-target="#newPostModal">New Post</button>
+      {% include "posts/partials/newPostModal.html" %}
+      {% endif %}
+    </div>
+    <div class="container-fluid ">
+      <div class="timeline">
+          {% for day, post_list in posts.items %}
+            {% for post in post_list %}
+              {% if forloop.counter|divisibleby:2 %}
+                  {% include 'posts/postCardRight.html'  %}
+              {% else %} 
+                  {% include 'posts/postCardLeft.html' %}
+              {% endif %}
+              {% endfor %}
+            {% include 'posts/timelineDate.html' %}
+          {% empty %}
+            <p>This user hasn't made any posts yet.</p>
+          {% endfor %}
+      </div>
     </div>
   </div>
 </div>
 
 {% endblock %}
-

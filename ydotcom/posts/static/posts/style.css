@@ -46,7 +46,8 @@ body {
 }
 
 /* timeline dot */
-.container::after {
+.container.right::after,
+.container.left::after {
     content: '';
     position: absolute;
     width: 16px;
@@ -64,7 +65,8 @@ body {
 }
 
 /* timeline dot hor line */
-.container::before {
+.container.left::before,
+.container.right::before {
   content: '';
   position: absolute;
   width: 24px;

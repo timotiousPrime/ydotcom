@@ -1,10 +1,12 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<ul class="list-group gap-2">
-{% for u in users %}
-    {% include 'partials/userCard.html' %}
-    
-{% endfor %}
-</ul>
+<div class="container">
+    <ul class="list-group gap-2">
+    {% for u in users %}
+        {% include 'partials/userCard.html' %}
+        
+    {% endfor %}
+    </ul>
+</div>
 {% endblock %}

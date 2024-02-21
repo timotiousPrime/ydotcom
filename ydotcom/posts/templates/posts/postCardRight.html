@@ -1,18 +1,10 @@
 {% load static %}
 
-<div class="row timeline-right">
-    <div class="col-md-6">
-      <div class="timeline-box">
-        <div class="timeline-text">
-          <p align="justify">{{ post.message }}</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 d-md-block d-none">
-      <p class="timeline-date">
-        {{ post.timestamp }}
+<div class="container right">
+  <div class="date">{{ day }}</div>
+  <div class="content">
+      <p>
+          {{ post.message }}
       </p>
-    </div>
+  </div>
 </div>
-
-

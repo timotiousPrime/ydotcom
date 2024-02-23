@@ -1,11 +1,10 @@
 {% load static %}
 
-
-<div class="container left">
-  <div class="date">{{ day }}</div>
-  <div class="content bg-info">
-      <p>
-          {{ post.message }}
-      </p>
+<div class="container my-4 left">
+  <div class="time">{{ post.timestamp|time:"H:i" }}</div>
+  <div class="content ">
+    <p>
+      {{ post.message }}
+    </p>
   </div>
 </div>

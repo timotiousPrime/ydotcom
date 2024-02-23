@@ -6,7 +6,7 @@
 <div class="container-fluid ">
   <div class="row justify-content-center">
     <div class="col-lg-4 p-2 position-relative ">
-      <h2 class=" text-center mb-5 ">{{ poster.username }}'s Posts</h2>
+      <h2 class=" text-center mb-5 ">{{ poster.username|title }}'s Posts</h2>
       {% if poster.username == user.username %}
         <button type="button" class="btn mt-4 btn-primary position-absolute bottom-0 start-50 translate-middle-x" data-bs-toggle="modal" data-bs-target="#newPostModal">New Post</button>
       {% include "posts/partials/newPostModal.html" %}
@@ -14,18 +14,19 @@
     </div>
     <div class="container-fluid ">
       <div class="timeline">
-          {% for day, post_list in posts.items %}
-            {% for post in post_list %}
-              {% if forloop.counter|divisibleby:2 %}
-                  {% include 'posts/postCardRight.html'  %}
-              {% else %} 
-                  {% include 'posts/postCardLeft.html' %}
-              {% endif %}
-              {% endfor %}
-            {% include 'posts/timelineDate.html' %}
-          {% empty %}
-            <p>This user hasn't made any posts yet.</p>
+        {% include 'posts/timelineDate.html' %}
+        {% for day, post_list in posts.items %}
+          {% for post in post_list %}
+            {% if forloop.counter|divisibleby:2 %}
+              {% include 'posts/postCardRight.html'  %}
+            {% else %} 
+              {% include 'posts/postCardLeft.html' %}
+            {% endif %}
           {% endfor %}
+          {% include 'posts/timelineDate.html' %}
+        {% empty %}
+          <p>This user hasn't made any posts yet.</p>
+        {% endfor %}
       </div>
     </div>
   </div>

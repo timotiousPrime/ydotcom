@@ -1,3 +1,7 @@
 <div class="date-container text-center text-wrap round post-date d-flex justify-content-center align-items-center">
-        {{day|date:"j M Y"}} 
+        {% if day %}
+                {{day|date:"j M Y"}} 
+        {% else %}
+                Now
+        {% endif %}
 </div>

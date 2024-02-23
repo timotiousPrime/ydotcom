@@ -10,6 +10,12 @@ body {
     background: #ffffff;
 }
 
+/* .btn-primary {
+    background: #F6D155;
+    border: 2px solid #006E51;
+    color: #006E51;
+} */
+
 .timeline {
     position: relative;
     width: 100%;
@@ -31,10 +37,11 @@ body {
 }
 
 .container {
-    padding: 15px 30px;
+
+    padding: 0.2em;
     position: relative;
     background: inherit;
-    width: 50%;
+    width: 45%;
 }
 
 .container.left {
@@ -53,15 +60,16 @@ body {
     width: 16px;
     height: 16px;
     top: calc(50% - 8px);
-    right: -8px;
+    right: -2.3em;
     background: #ffffff;
     border: 2px solid #006E51;
     border-radius: 16px;
-    z-index: 1;
+    z-index: 100;
 }
 
+/* Position of right timeline dot */
 .container.right::after {
-    left: -8px;
+    left: -2.25em;
 }
 
 /* timeline dot hor line */
@@ -69,84 +77,48 @@ body {
 .container.right::before {
   content: '';
   position: absolute;
-  width: 24px;
+  width: 2.3em;
   height: 2px;
   top: calc(50% - 1px);
-  right: 8px;
+  right: -1.9em;
   background: #006E51;
-  z-index: 1;
+  z-index: 10;
 }
 
-/* post-date container dot hor line */
-/* timeline dot */
-
+/* Post Date Circle */
 .date-container {
-    padding: 15px 30px;
+    padding: 2em 2em;
+    margin: 0.4em 0;
+
     position: relative;
-    background: inherit;
-    width: 50%;
-}
-/* 
-.date-container::after {
-    content: '';
-    position: absolute;
-    width: 5em;
-    height: 5em;
-    top: calc(50% - 4em);
-    right: -1em;
-    background: #ffffff00;
-    border: 2px solid #006E51;
-    border-radius: 50%;
-    z-index: 1;
-} */
-
-/* .date-container::before {
-    content: '';
-    position: absolute;
-    width: 24px;
-    height: 2px;
-    top: calc(50% - 1px);
-    right: 8px;
-    background: #006E51;
-    z-index: 1;
-} */
-
- .date-container .post-date {
-    position: absolute;
     display: inline-block;
-    padding: 0.8em;
-
-    height: 6em;
     width: 6em;
+    height: 6em;
     top: calc(50% - 3em);
+    left: calc(50% - 3em);
 
-    justify-self: center;
-    text-align: center;
-    font-size: 0.8em;
+    font-size: 1em;
     font-weight: bold;
     text-transform: uppercase;
     word-wrap: normal;
     letter-spacing: 1px;
 
-    color: #006E51;
-    background: #ffffff;
+    text-align: center;
+    justify-self: center;
 
-    /* border: 2px solid #006E51;
-    border-radius: 50%; */
     
+    background: linear-gradient(#FBEAB1, #F6D155);
+    border-radius: 50%;
+    border: 2px solid #006E51;
     z-index: 1;
-} 
-
-/* Post timestamp position */
-.date-container.post-date .post-date {
-    right: -3em;
 }
 
+/* Right horizontal line */
 .container.right::before {
-  left: 8px;
+  left: -1.9em;
 }
 
-.container .date {
+.container .time {
     position: absolute;
     display: inline-block;
     top: calc(50% - 8px);
@@ -159,18 +131,14 @@ body {
     z-index: 1;
 }
 
-
-
-
-
 /* Post timestamp position */
-.container.left .date {
-    right: -22%;
+.container.left .time {
+    right: -6em;
 }
 
 /* Post timestamp position */
-.container.right .date {
-    left: -22%;
+.container.right .time {
+    left: -6em;
 }
 
 /* Unused but leaving it here incase I want to add an icon later */
@@ -198,23 +166,18 @@ body {
     left: 56px;
 } */
 
+/* post bubble */
 .container .content {
-    padding: 30px 90px 30px 30px;
+    padding: 0.8em;
     background: #F6D155;
     position: relative;
-    border-radius: 0 500px 500px 0;
+    border-radius: 0 2em 2em 0;
+    border: #006E51 solid 2px;
+    z-index: 1000;
 }
 
 .container.right .content {
-    padding: 30px 30px 30px 90px;
-    border-radius: 500px 0 0 500px;
-}
-
-.container .content h2 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-    font-weight: normal;
-    color: #006E51;
+    border-radius: 2em 0 0 2em;
 }
 
 .container .content p {
@@ -251,8 +214,8 @@ body {
         border-color: transparent #006E51 transparent transparent;
     }
     
-    .container.left .date,
-    .container.right .date {
+    .container.left .time,
+    .container.right .time {
         right: auto;
         left: 15px;
     }

@@ -7,7 +7,6 @@
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff;
 }
 
 /* .btn-primary {
@@ -29,7 +28,7 @@ body {
     content: '';
     position: absolute;
     width: 2px;
-    background: #006E51;
+    background: #260F26;
     top: 0;
     bottom: 0;
     left: 50%;
@@ -62,7 +61,7 @@ body {
     top: calc(50% - 8px);
     right: -2.3em;
     background: #ffffff;
-    border: 2px solid #006E51;
+    border: 2px solid #260F26;
     border-radius: 16px;
     z-index: 100;
 }
@@ -81,7 +80,7 @@ body {
   height: 2px;
   top: calc(50% - 1px);
   right: -1.9em;
-  background: #006E51;
+  background: #260F26;
   z-index: 10;
 }
 
@@ -107,9 +106,9 @@ body {
     justify-self: center;
 
     
-    background: linear-gradient(#FBEAB1, #F6D155);
+    background: linear-gradient(#877EC8, #5F54B6);
     border-radius: 50%;
-    border: 2px solid #006E51;
+    border: 2px solid #260F26;
     z-index: 1;
 }
 
@@ -125,7 +124,7 @@ body {
     text-align: center;
     font-size: 14px;
     font-weight: bold;
-    color: #006E51;
+    color: #260F26;
     text-transform: uppercase;
     letter-spacing: 1px;
     z-index: 1;
@@ -150,11 +149,11 @@ body {
     padding: 9px 0;
     top: calc(50% - 20px);
     background: #F6D155;
-    border: 2px solid #006E51;
+    border: 2px solid #260F26;
     border-radius: 40px;
     text-align: center;
     font-size: 18px;
-    color: #006E51;
+    color: #260F26;
     z-index: 1;
 } */
 
@@ -169,10 +168,11 @@ body {
 /* post bubble */
 .container .content {
     padding: 0.8em;
-    background: #F6D155;
+    background: #5F54B6;
+    color: #F2F8F4;
     position: relative;
     border-radius: 0 2em 2em 0;
-    border: #006E51 solid 2px;
+    border: #260F26 solid 2px;
     z-index: 1000;
 }
 
@@ -185,7 +185,7 @@ body {
     font-size: 16px;
     word-wrap: break-word;
     line-height: 22px;
-    color: #000000;
+    color: #F2F8F4;
 }
 
 @media (max-width: 767.98px) {
@@ -211,7 +211,7 @@ body {
     .container.left::before,
     .container.right::before {
         left: 100px;
-        border-color: transparent #006E51 transparent transparent;
+        border-color: transparent #260F26 transparent transparent;
     }
     
     .container.left .time,
@@ -232,3 +232,32 @@ body {
         border-radius: 500px 0 0 500px;
     }
 }
+
+
+
+
+
+/* ############################ */
+/* #####    User Cards    ##### */
+/* ############################ */
+.user-card {
+    background: #5F54B6;
+}
+
+
+.user-card > a {
+    color: #F2F8F4;
+    text-decoration: none;
+}
+
+
+.user-card:hover {
+    transform: scale(1.1);
+}
+
+.user-card > a:hover {
+    color: #F6D251;
+    transform: scale(1.8);
+}
+
+

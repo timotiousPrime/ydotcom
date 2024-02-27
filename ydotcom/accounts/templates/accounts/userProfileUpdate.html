@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <h2>Edit Profile</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ user_form|crispy }}
+    {{ form|crispy }}
+
+    {{ employmenthistory_form.management_form }}
+    {% for form in employmenthistory_form %}
+      <div class="inline {{ employmenthistory_form.prefix }}">
+        {{ form|crispy }}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+{% endblock %}

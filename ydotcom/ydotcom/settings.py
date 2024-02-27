@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'main',
     'accounts',
     'posts',
+
     'crispy_forms',
     "crispy_bootstrap4",
-
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -124,7 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_files')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_files')]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -142,3 +144,9 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 
 # EMAIL_HOST_USER=
 # EMAIL_HOST_PASSWORD=""
+
+REST_FRAMEWORK ={
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

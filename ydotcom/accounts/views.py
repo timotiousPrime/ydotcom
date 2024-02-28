@@ -22,10 +22,12 @@ from django.contrib.auth.forms import AuthenticationForm
 # DRF
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
+from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.decorators import action
-from rest_framework.parsers import JSONParser
-# serializers
-from .serializers import UserProfileSerializer, InterestSerializer, EmploymentHistorySerializer
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from .serializers import UserProfileSerializer, InterestSerializer, EmploymentHistorySerializer, UserAccountSerializer, UserSerializer
 # Messages
 from django.contrib import messages
 # Email 
@@ -56,6 +58,7 @@ class loginPage(LoginView):
                    "form": self.loginForm}
         return render(request, self.template_name, context)
     
+    @transaction.atomic
     def post(self, request):
         username = request.POST["username"]
         password = request.POST["password"]
@@ -146,6 +149,16 @@ class EmploymentHistoryViewSet(viewsets.ModelViewSet):
             return self.queryset.filter(user_profile_id=user_profile_id)
         return self.queryset
 
+class UsersList(APIView):
+    def get(self, request):
+        queryset = User.objects.all()
+        return Response ({'queryset': queryset})
+    
+
+class UsersViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 ###############################################
 #####           End API Views             #####
@@ -153,64 +166,56 @@ class EmploymentHistoryViewSet(viewsets.ModelViewSet):
     
 # Front end views
     
+def testView(request):
+    template = "accounts/test.html"
+    context = {
+        "title": "Test Page"
+    }
+    return render(request, template, context)
 
-class userManagerView(View):
-    template_name = "accounts/accountsManager.html"
-    title = "Account Manager "
-    registerForm = UserRegisterForm
+class newAccountApiView(APIView):
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
+    serializer_class = UserAccountSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = UserProfile.objects.all()
 
     def get(self, request):
-        context = {"title": self.title,
-                   "form": self.registerForm}
-        return render(request, self.template_name, context)
-    
+        user = User.objects.all()
 
-    
-class UserProfileViewSet(viewsets.ModelViewSet):
-    @transaction.atomic
-    def create_full_profile(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-    
-class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
-    model = UserProfile
-    form_class = UserProfileForm
-    template_name = 'user_profile_update.html'
-
-    def get_object(self, queryset=None):
-        obj = super(UserProfileUpdateView, self).get_object(queryset=queryset)
-        if obj.user != self.request.user:
-            raise PermissionDenied("You do not have permission to edit this profile.")
-        return obj
-
-    def get_context_data(self, **kwargs):
-        context = super(UserProfileUpdateView, self).get_context_data(**kwargs)
-        if self.request.POST:
-            context['user_form'] = UserRegisterForm(self.request.POST, instance=self.request.user)
-            context['employmenthistory_form'] = EmploymentHistoryFormSet(self.request.POST, instance=self.object)
-        else:
-            context['user_form'] = UserRegisterForm(instance=self.request.user)
-            context['employmenthistory_form'] = EmploymentHistoryFormSet(instance=self.object)
-        return context
+        serializer = self.serializer_class(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @transaction.atomic
-    def form_valid(self, form):
-        context = self.get_context_data()
-        user_form = context['user_form']
-        employmenthistory_form = context['employmenthistory_form']
-        if user_form.is_valid() and employmenthistory_form.is_valid():
-            self.object = form.save()
-            user_form.save()
-            employmenthistory_form.instance = self.object
-            employmenthistory_form.save()
-            return super(UserProfileUpdateView, self).form_valid(form)
+    def post(self, request, format=None):
+        data = request.data
+        # Extract user data and create user
+        user_data = data.get('user')
+        user_serializer = UserSerializer(data=user_data)
+        if user_serializer.is_valid():
+            user = user_serializer.save()
         else:
-            return self.render_to_response(self.get_context_data(form=form))
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-    def get_success_url(self):
-        return redirect('profile-detail', kwargs={'pk': self.object.pk})
-        # Make url for profile detail!!!
-    
+        # Extract Profile data and create userProfile instance, associated with newly created user
+        profile_data = data.get('profile')
+        profile_serializer = UserProfileSerializer(data=profile_data, context={'user': user.pk})
+        if profile_serializer.is_valid():
+            profile = profile_serializer.save(user=user)
+        else:
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Extract employment history data and create EmploymentHistory instances
+        employment_data = profile_data.get('employement', [])
+        for employment_item in employment_data:
+            employment_serializer = EmploymentHistorySerializer(data=employment_item, context={'user_profile': profile.pk})
+            if employment_serializer.is_valid():
+                employment_serializer.save(profile=profile)
+            else:
+                return Response(employment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({
+            'user': user_serializer.data,
+            'profile': profile_serializer.data,
+            'employment_history': [EmploymentHistorySerializer(employment).data for employment in profile.employmenthistory_set.all()],
+
+        }, status=status.HTTP_201_CREATED)

@@ -1,0 +1,124 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+    <section id="Test_Page" class="testPage">
+
+    </section>
+
+<script>
+const apiUrl = "http://127.0.0.1:8000/accounts/user_account/"
+
+const contentWindow = document.getElementById('Test_Page')
+const container = document.createElement('div')
+contentWindow.classList.add('container', 'border', 'border-2', 'border-warning', 'w-100' )
+container.classList.add('row', 'justify-content-center', 'border', 'border-2')
+contentWindow.appendChild(container)
+
+const newAccountBtn = (() => {
+    const template = `
+    <a style="z-index: 1000;" href="#" class="btn btn-primary position-absolute top-0 start-0">Add New Account</a>
+    `
+    const btn = document.createElement('div')
+    btn.innerHTML = template
+    btn.setAttribute('id', 'AddNewAccountBtn')
+    return btn
+})
+container.appendChild(newAccountBtn())
+
+let newUserCard = (id, userId, firstName, surname, title) => {
+        const template = `
+        <div class="col pt-2 container">
+            <div class="card bg-light mb-4 box-shadow rounded-3">
+              <div class="card-body ">
+                <h5 class="card-title">${ userId }</h5>
+                <p class="card-text">${ title }. ${ firstName } ${ surname }</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  </div>
+                  <small class="text-muted">profile id: ${ id }</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+        const card = document.createElement('div')
+        card.innerHTML = template
+        card.setAttribute('id', '${userId}')
+
+        container.appendChild(card)
+    }
+
+
+const formData = {
+        "user": {
+            "username": "ApiTest",
+
+        },
+        "profile": {
+            "title": "Mr",
+            "first_name": "Test",
+            "surname": "Tee",
+            "date_of_birth": "1900-01-01T00:00:00+01:30",
+            "phone_number": "1234567798",
+            "interests": [
+                2,
+                4
+            ]
+        },
+        "employment_history": [
+            {
+                "start_date": "2024-02-27T19:03:01+02:00",
+                "end_date": "2024-02-27T19:03:03+02:00",
+                "organisation_name": "Y.com",
+                "user_profile": 10,
+                "position": 1
+            }
+        ]
+    }
+
+// Make a GET request to the API Url
+if (apiUrl == "http://127.0.0.1:8000/accounts/api/users/") {
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok){
+                throw new Error('Network response was not ok.')
+            }
+            return response.json()
+        })
+        .then(userData => {
+            console.log("User data: ", userData)
+            console.log("User data: ", userData.length)
+    
+            userData.map((data)=>{
+                newUserCard(data.pk, data.user, data.first_name, data.surname, data.title)
+            })
+        })
+        .catch(error => {
+            console.error('Error: ', error)
+        })
+} else if (apiUrl =="http://127.0.0.1:8000/accounts/user_account/" ) {
+    fetch(apiUrl, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        }, 
+        body: JSON.stringify(formData) 
+    })
+        .then(response => {
+            if (!response.ok){
+                throw new Error('Network response was not ok.')
+            }
+            return response.json()
+        })
+        .then(userData => {
+            console.log("User data: ", userData)
+        })
+        .catch(error => {
+            console.error('Error: ', error)
+        })
+}
+</script>
+{% endblock %}

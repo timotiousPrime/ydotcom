@@ -2,6 +2,7 @@
 from django.views.generic import View
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from posts.models import Post
 
 
 
@@ -22,8 +23,8 @@ class homePage(View):
     title = "Home Page"
 
     def get(self, request):
-        users = User.objects.all()
+        posts = Post.objects.all().order_by('-timestamp')
         context = {"title": self.title,
-                   "users": users,
+                   "posts": posts,
                    }
         return render(request, self.template_name, context)

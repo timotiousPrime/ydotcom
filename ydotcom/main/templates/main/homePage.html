@@ -1,12 +1,11 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<div class="container">
-    <ul class="list-group gap-2 align-items-center">
-    {% for u in users %}
+<div class="container-lg mt-6">
+    <ul class="gap-2 ">
+    {% for p in posts %}
         {% include 'partials/userCard.html' %}
         {% endfor %}
-        {% include 'partials/accountManagerCard.html' %}        
     </ul>
 </div>
 {% endblock %}

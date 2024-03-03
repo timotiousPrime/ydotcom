@@ -2,7 +2,8 @@
 from django.db import transaction
 # Views
 from django.views.generic.edit import UpdateView
-from django.views.generic import View
+from django.views.generic import View, ListView, DetailView, FormView
+from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.views import LoginView
 # Mixins
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,14 +11,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 # Authentication
 from django.contrib.auth import authenticate, login, logout
 # Models
 from django.contrib.auth.models import User
 from .models import UserProfile, Interest, EmploymentHistory
 # Forms
-from .forms import UserRegisterForm, UserProfileForm, EmploymentHistoryFormSet
+from .forms import UserRegisterForm, UserProfileForm, UserformSet, UserAccountForm, EmploymentHistoryFormSet
 from django.contrib.auth.forms import AuthenticationForm
 # DRF
 from rest_framework import viewsets, permissions, status
@@ -37,13 +39,13 @@ from django.contrib import messages
 
 
 # Create your views here.
-class accountsPage(View):
-    template_name = "accounts/accountsPage.html"
-    title = "Hello, World. Welcome to the accounts Page"
+# class accountsPage(View):
+#     template_name = "accounts/accountsPage.html"
+#     title = "Hello, World. Welcome to the accounts Page"
 
-    def get(self, request):
-        context = {"title": self.title}
-        return render(request, self.template_name, context)
+#     def get(self, request):
+#         context = {"title": self.title}
+#         return render(request, self.template_name, context)
     
 # This will change to a redirect
 class loginPage(LoginView):
@@ -101,24 +103,9 @@ class registerPage(View):
         }
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-
-            ''' 
-            IF YOU WANT EMAIL CONFIRMATION 
-            '''
-            # Email authentication
-            # htmly = get_template('main/Email.html')
-            # d = {'username': username}
-            # subject, from_email, to = 'welcome', 'timodb031@gmail.com', email
-            # html_content = htmly.render(d)
-            # msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
-            # msg.attach_alternative(html_content, "text/html")
-            # msg.send()
-
-            # Success
             messages.success(request, f"Congratulations! Your account has been created! You can now log in.")
             return redirect('Login') 
+        
         return render(request, self.template_name, context)
     
 
@@ -164,14 +151,131 @@ class UsersViewSet(viewsets.ModelViewSet):
 #####           End API Views             #####
 ###############################################
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Front end views
     
-def testView(request):
-    template = "accounts/test.html"
-    context = {
-        "title": "Test Page"
-    }
-    return render(request, template, context)
+# AccountsListView
+class AccountsListView(ListView):
+    template_name = "accounts/accountsListPage.html"
+    queryset = User.objects.all()
+
+# AccountDetailView
+class AccountDetailView(DetailView):
+    template_name = "accounts/accountDetailPage.html"
+    model = User
+
+# AccountCreateView
+class NewAccount(View):
+    template_name = "accounts/accountsCreatePage.html"
+
+    def get(self, request, *args, **kwargs):
+        user_form = UserAccountForm()
+        profile_form = UserProfileForm()
+        history_formset = EmploymentHistoryFormSet()
+        return render(request, self.template_name, {
+            'user_form': user_form,
+            'profile_form': profile_form,
+            'history_formset': history_formset,
+        })
+
+    def post(self, request, *args, **kwargs):
+        user_form = UserAccountForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+        history_formset = EmploymentHistoryFormSet(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid() and history_formset.is_valid():
+            with transaction.atomic():
+                user = user_form.save()
+                print("userSaved!")
+                profile = profile_form.save(commit=False)
+                print("profile created!")
+                profile.user = user
+                profile.save()
+                print('profile saved')
+                history_formset.instance = user
+                history_formset.save()
+
+                messages.success(request, "User and associated profiles created successfully.")
+                return HttpResponseRedirect(reverse('accounts:Accounts'))
+
+        return render(request, self.template_name, {
+            'user_form': user_form,
+            'profile_form': profile_form,
+            'history_formset': history_formset,
+        })
+
+# AccountDeleteView
+    
+# UserProfileDetailView
+# UserProfileUpdateView
+class ProfileUpdateView(SingleObjectMixin, FormView):
+    model = UserProfile
+    template_name = "accounts/profileEdit.html"
+    # fields = ['first_name', 'surname', 'title', 'email', 'phone_number', 'date_of_birth', 'interests']
+    form_class = UserProfileForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=self.model.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        print("posting....")
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+
+    def get_form(self, form_class=None):
+        form_class = self.get_form_class() if form_class is None else form_class
+        return UserformSet(**self.get_form_kwargs(), instance=self.object.user)
+    
+    def form_valid(self, form):
+        with transaction.atomic():
+            form.save()
+            print("Profile Update saved successfully!")
+            messages.add_message(self.request, messages.SUCCESS, "Changes were saved!")
+            return HttpResponseRedirect(self.get_success_url())
+    
+    def get_success_url(self):
+        return reverse('accounts:AccountDetails', kwargs={"pk": self.object.user.pk})
+    
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+    
+# UserEmploymentHistoryListView
+# UserEmploymentHistoryDetailView
+# UserEmploymentHistoryUpdateView
+# UserEmploymentHistoryDeleteView
+    
+# def testView(request):
+#     template = "accounts/test.html"
+#     context = {
+#         "title": "Test Page"
+#     }
+#     return render(request, template, context)
+
+# class AccountsPage(ListView):
+#     template_name = "accounts/accountsPage.html"
+#     form_class = UserAccountForm
+#     queryset = User.objects.all()
+
+# class UserDetails(DetailView):
+#     model = User
+#     template_name = "accounts/userDetailsPage.html"
 
 class newAccountApiView(APIView):
     parser_classes = (MultiPartParser, FormParser, JSONParser)

@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<section class="container-lg mb-4">
+    <h2 class="">Accounts Page</h2>
+    <form class="w-50 mx-auto list-group" action="">
+    {% csrf_token %}
+    <div class="my-2">
+        <h3 class="card-header">Registration</h3>
+        {{ user_form|crispy }}
+    </div>
+    <div class=" my-2">
+        <h3 class="card-header">Profile Details</h3>
+        {{ profile_form|crispy }}
+    </div>
+    <div class=" my-2">
+        <h3 class="card-header ">Employment History</h3>
+        {{ employment_form|crispy }}
+    </div>
+    <button class=" m-5 btn btn-primary">Submit</button>
+    </form>
+</section>
+{% endblock %}

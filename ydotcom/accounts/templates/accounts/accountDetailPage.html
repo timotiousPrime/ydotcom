@@ -1,0 +1,146 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+<section class="container-md">
+    <!-- Left Panel -->
+    <div class="row gutters-sm">
+        <div class="col-md-4 mb-3">
+            <!-- User Card -->
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex flex-column align-items-center text-center">
+                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                <div class="mt-3">
+                  <h4>{{ user.username }}</h4>
+                  <p class="text-secondary mb-1">{{ user.user_profile.first_name }} {{ user.user_profile.surname }}</p>
+                  <p class="text-muted font-size-sm">{{ user.email }}</p>
+                  <a href="{% url 'posts:User_Posts' user.username %}" class="btn btn-outline-primary">Posts</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Profile Details Card -->
+
+        </div>
+        <div class="col-md-8">
+            <!-- User Info Card -->
+          <div class="card mb-3">
+            <div class="card-header">
+                Profile Details
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">First Name</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{ user.user_profile.first_name }}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Surname</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{ user.user_profile.surname }}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Email</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                    {{ user.user_profile.email }}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Phone</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                    {{ user.user_profile.phone_number }}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Interests</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                    {{ user.user_profile.interests }}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-12">
+                  <a class="btn btn-outline-warning " href="{% url 'accounts:ProfileUpdate' user.user_profile.pk %}">Edit</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {% for employment in user.employment_history.all %}
+          <!-- User Employment History Card -->
+          <div class="card mb-3">
+              <div class="card-header">
+                  Employment History
+              </div>
+           <div class="card-body">
+             <div class="row">
+               <div class="col-sm-3">
+                 <h6 class="mb-0">Company Name</h6>
+               </div>
+               <div class="col-sm-9 text-secondary">
+                {{ employment.organisation_name }}
+               </div>
+             </div>
+             <hr>
+             <div class="row">
+               <div class="col-sm-3">
+                 <h6 class="mb-0">Position</h6>
+               </div>
+               <div class="col-sm-9 text-secondary">
+                 {{ employment.position }}
+               </div>
+             </div>
+             <hr>
+             <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Start Date</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{ employment.start_date|date }}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">End Date</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{ employment.end_date|date }}
+                </div>
+              </div>
+              <hr>
+             <div class="row">
+               <div class="col-sm-12">
+                 <a class="btn btn-outline-warning" target="__blank" href="#">Edit</a>
+                 <a class="btn btn-outline-danger " target="__blank" href="#">Delete</a>
+               </div>
+             </div>
+           </div>
+         </div>
+          {% endfor %}
+          <div class="mb-4 w-75 btn-group">
+            <a href="" class=" btn btn-primary">Add Employment</a>
+            <a href="" class=" btn btn-danger">Delete Account</a>
+          </div>
+        </div>
+      </div>
+</section>
+
+{% endblock %}

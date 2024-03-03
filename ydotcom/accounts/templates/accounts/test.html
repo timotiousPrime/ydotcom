@@ -80,7 +80,7 @@ const formData = {
     }
 
 // Make a GET request to the API Url
-if (apiUrl == "http://127.0.0.1:8000/accounts/api/users/") {
+if (apiUrl === "http://127.0.0.1:8000/accounts/api/users/") {
     fetch(apiUrl)
         .then(response => {
             if (!response.ok){
@@ -99,7 +99,7 @@ if (apiUrl == "http://127.0.0.1:8000/accounts/api/users/") {
         .catch(error => {
             console.error('Error: ', error)
         })
-} else if (apiUrl =="http://127.0.0.1:8000/accounts/user_account/" ) {
+} else if (apiUrl === "http://127.0.0.1:8000/accounts/user_account/" ) {
     fetch(apiUrl, {
         method: "POST",
         headers: {

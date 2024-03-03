@@ -3,15 +3,15 @@
       <a class="navbar-brand">Y.com</a>
       
       {% if user.is_authenticated %}
-      <div class="d-flex">
-        <a class="mx-2 px-4 py-2" href="{% url 'HomePage' %}">Home</a>
-        <a class="mx-2 px-4 py-2" href="{% url 'Logout' %}">Logout</a>
-        <a class="mx-2 px-4 py-2" href="{% url 'TestView' %}">Accounts</a>
+      <div class="d-flex nav-item">
+        <a class="mx-2 px-4 py-2 nav-link" href="{% url 'HomePage' %}">Home</a>
+        <a class="mx-2 px-4 py-2 nav-link" href="{% url 'accounts:Logout' %}">Logout</a>
+        <a class="mx-2 px-4 py-2 nav-link" href="{% url 'accounts:Accounts' %}">Accounts</a>
       </div>
         {% else %}
       <div class="d-flex">
-        <a class="mx-2 px-4 py-2" href="{% url 'Login' %}">Log in</a>
-        <a class="mx-2 px-4 py-2" href="{% url 'Register' %}">Register</a>
+        <a class="mx-2 px-4 py-2  nav-link" href="{% url 'accounts:Login' %}">Log in</a>
+        <a class="mx-2 px-4 py-2  nav-link" href="{% url 'accounts:Register' %}">Register</a>
       </div>
       {% endif %}
     </div>

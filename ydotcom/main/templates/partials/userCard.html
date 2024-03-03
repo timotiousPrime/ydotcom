@@ -1,7 +1,7 @@
 {% load static %}
 
 <li  class="start-50 translate-middle-x w-50 my-4 card text-decoration-none" style="width: 18rem;">
-  <a href="{% url 'User_Posts' p.user.username  %}" class="text-decoration-none text-dark" href="">
+  <a href="{% url 'posts:User_Posts' p.user.username  %}" class="text-decoration-none text-dark" href="">
     <div class="card-header">
       <h5 class="d-inline">{{ p.user.username|title }}</h5>
       <h6 class="d-inline float-end text-muted">{{ p.timestamp| time }}</h6>

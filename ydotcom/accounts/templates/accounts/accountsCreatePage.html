@@ -1,0 +1,51 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<section class="container">
+    {% for hidden_field in form.hidden_fields %}
+      {{ hidden_field.errors }}
+      {{ hidden_field }}
+    {% endfor %}
+
+
+    <h2>Create New Account</h2>
+    <form method="post" id="NewAccountForm" action="{% url 'accounts:NewAccount' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="card mb-3">
+          <div class="card-header">
+             New User
+          </div>
+          <div class="card-body">
+                  <div class="row">
+                      
+                      {% crispy user_form %}
+                  </div>
+        </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header">
+           Profile Details
+        </div>
+        <div class="card-body">
+                <div class="row">
+                    {% csrf_token %}
+                    {% crispy profile_form %}
+                </div>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header">
+         Employment History
+      </div>
+      <div class="card-body">
+        <div class="row">
+            {% crispy history_formset %}
+        </div>
+    </div>
+  </div>
+  <button type="submit" form="NewAccountForm" class="btn btn-primary">Add New User</button>
+    </form>
+</section>
+
+{% endblock content %}

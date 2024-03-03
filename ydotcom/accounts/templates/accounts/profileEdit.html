@@ -1,0 +1,25 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<section class="container">
+
+    <h2>Edit Profile Details</h2>
+    <div class="card mb-3">
+        <div class="card-header">
+           {{ object.user.username|title }}
+        </div>
+        <div class="card-body">
+            <form method="post" id="profileForm" action="{% url 'accounts:ProfileUpdate' object.pk %}" enctype="multipart/form-data">
+                <div class="row">
+                    
+                    {% csrf_token %}
+                    {% crispy form %}
+                </div>
+                <a class="mt-4 btn btn-outline-warning" href="{% url 'accounts:AccountDetails' object.user.pk  %}">Cancel</a>
+                <button type="submit" form="profileForm" class="mt-4 btn btn-primary">Update</button>
+            </form>
+      </div>
+    </div>
+</section>
+{% endblock %}

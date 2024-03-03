@@ -11,10 +11,10 @@
               {{ form|crispy}}
             </fieldset>
            <center>
-            <button formmethod="post" formaction="{% url 'Login' %}"  class="m-2 btn btn-primary" type="submit"><span class="glyphicon glyphicon-log-in"></span>   login</button>
+            <button formmethod="post" formaction="{% url 'accounts:Login' %}"  class="m-2 btn btn-primary" type="submit"><span class="glyphicon glyphicon-log-in"></span>   login</button>
           </center>
           <br/>
-          <sub class="p-2 m-2" ><a class="m-2 " href="{% url 'Register' %}">Don't have account? Sign up.</a></sub>
+          <sub class="p-2 m-2" ><a class="m-2 " href="{% url 'accounts:Register' %}">Don't have account? Sign up.</a></sub>
           </form>
         </center>
          </div>

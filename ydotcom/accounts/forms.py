@@ -87,11 +87,13 @@ class EmploymentHistoryForm(forms.ModelForm):
 EmploymentHistoryFormSet = inlineformset_factory(
     User, EmploymentHistory, 
     form = EmploymentHistoryForm,
-    extra=1, can_delete=True
+    extra=1, can_delete=True,
+    max_num=10,
 )
 
 UserformSet = inlineformset_factory(
     User, UserProfile, 
     form = UserProfileForm,
-    extra = 0, can_delete=False
+    extra = 0, can_delete=False,
+    
 )

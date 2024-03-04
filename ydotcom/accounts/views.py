@@ -198,21 +198,17 @@ class NewAccount(View):
         user_form = UserAccountForm(request.POST)
         profile_form = UserProfileForm(request.POST)
         history_formset = EmploymentHistoryFormSet(request.POST)
-
-        if user_form.is_valid() and profile_form.is_valid() and history_formset.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             with transaction.atomic():
-                user = user_form.save()
+                user = user_form.save() # creates new user, which sends signal to create new profile
                 print("userSaved!")
-                profile = profile_form.save(commit=False)
-                print("profile created!")
-                profile.user = user
-                profile.save()
-                print('profile saved')
-                history_formset.instance = user
-                history_formset.save()
-
-                messages.success(request, "User and associated profiles created successfully.")
-                return HttpResponseRedirect(reverse('accounts:Accounts'))
+                profile_form.instance.user = user
+                profile_form.save()
+                history_formset = EmploymentHistoryFormSet(request.POST, instance=user)
+                if history_formset.is_valid():
+                    history_formset.save()
+                    messages.success(request, "User and associated profile created successfully.")
+                    return HttpResponseRedirect(reverse('accounts:Accounts'))
 
         return render(request, self.template_name, {
             'user_form': user_form,

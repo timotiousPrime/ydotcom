@@ -17,7 +17,10 @@
     </div>
     <div class=" my-2">
         <h3 class="card-header ">Employment History</h3>
-        {{ employment_form|crispy }}
+        {% history_formset.management_form %}
+        {% for form in history_formset %}
+            {% form|crispy %}
+        {% endfor %}
     </div>
     <button class=" m-5 btn btn-primary">Submit</button>
     </form>

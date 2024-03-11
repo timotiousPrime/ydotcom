@@ -2,21 +2,52 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 offset-md-3">
-        <form method="POST" style="border: 1px solid black; margin: 4%; padding:10%; border-radius:1%;">
+<!-- <div class="row">
+  <div class="col-md-8 offset-md-3">
+    <form method="POST" action="{% url 'accounts:Register' %}" >
+      <h2 class="mb-5 mt-0">User Registration</h2>
           {% csrf_token %}
           <fieldset class="form-group">
             {{ form|crispy}}
           </fieldset>
           <center>
-            <button formmethod="post" formaction="{% url 'Register' %}" class="m-2 btn btn-primary" type="submit"><span class="glyphicon glyphicon-check"></span>sign up</button>
+            <button  class="m-2 btn btn-primary" type="submit"><span class="glyphicon glyphicon-check"></span>sign up</button>
           </center>
           <br />
-          <sub><a href="{% url 'Login' %}">Already have an account?</a></sub>
+          <sub><a href="{% url 'accounts:Login' %}">Already have an account?</a></sub>
         </form>
     </div>
-</div>
+</div> -->
+
+<section class="container">
+  {% for hidden_field in form.hidden_fields %}
+    {{ hidden_field.errors }}
+    {{ hidden_field }}
+  {% endfor %}
+
+
+  <form method="POST" id="newAccountForm" action="{% url 'accounts:Register' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card mb-3">
+        <h4 class="card-header">
+          User Registration
+        </h4>
+        <div class="card-body">
+                <div class="row">
+                    {% crispy form %}
+                </div>
+      </div>
+    </div>
+    <center>
+      <button type="submit" form="newAccountForm" class="btn btn-primary">Sign Up</button>
+    </center>
+    <center>
+      <sub><a href="{% url 'accounts:Login' %}">Already have an account?</a></sub>
+    </center>
+  </form>
+</section>
 
 
 {% endblock %}
+
+

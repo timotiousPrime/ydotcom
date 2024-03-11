@@ -22,7 +22,9 @@
           </div>
           <!-- Profile Details Card -->
 
+          <!-- End of side panel -->
         </div>
+
         <div class="col-md-8">
             <!-- User Info Card -->
           <div class="card mb-3">
@@ -31,7 +33,7 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <h6 class="mb-0">First Name</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
@@ -40,7 +42,7 @@
               </div>
               <hr>
               <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <h6 class="mb-0">Surname</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
@@ -49,7 +51,7 @@
               </div>
               <hr>
               <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <h6 class="mb-0">Email</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
@@ -58,7 +60,7 @@
               </div>
               <hr>
               <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <h6 class="mb-0">Phone</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
@@ -67,11 +69,16 @@
               </div>
               <hr>
               <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <h6 class="mb-0">Interests</h6>
                 </div>
+                {% for interest in user.user_profile.interests_set %}
+                  <div class="col-sm-9 text-secondary">
+                    {{ interest }}
+                  </div>
+                {% endfor %}
                 <div class="col-sm-9 text-secondary">
-                    {{ user.user_profile.interests }}
+                    {{ user.user_profile.interests_set.all }}
                 </div>
               </div>
               <hr>
@@ -88,6 +95,8 @@
           <div class="card mb-3">
               <div class="card-header">
                   Employment History
+
+                  {{ employment.id }}
               </div>
            <div class="card-body">
              <div class="row">
@@ -129,7 +138,7 @@
              <div class="row">
                <div class="col-sm-12">
                  <a class="btn btn-outline-warning" target="__blank" href="#">Edit</a>
-                 <a class="btn btn-outline-danger " target="__blank" href="#">Delete</a>
+                 <a class="btn btn-outline-danger "  href="{% url 'accounts:EmploymentHistoryDelete' pk=employment.pk %}">Delete</a>
                </div>
              </div>
            </div>
@@ -137,7 +146,6 @@
           {% endfor %}
           <div class="mb-4 w-75 btn-group">
             <a href="" class=" btn btn-primary">Add Employment</a>
-            <a href="" class=" btn btn-danger">Delete Account</a>
           </div>
         </div>
       </div>

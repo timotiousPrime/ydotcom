@@ -23,7 +23,7 @@ def userPostsList(request, username):
         qs = dict(qs)
         
         context = {
-            "title": username,  
+            "title": f"{username}'s Posts",  
             "posts": qs,
             "poster": User.objects.get(username=username),
             "form": form
@@ -39,7 +39,7 @@ def createPost(request, username):
             post = form.save(commit=False)
             post.user = user
             post.save()
-            return redirect("User_Posts", user.username)
+            return redirect("posts:User_Posts", user.username)
     else:
         form = PostForm()
 

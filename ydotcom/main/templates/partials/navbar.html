@@ -1,12 +1,15 @@
-<nav class="navbar bg-body-light fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand">Y.com</a>
-      
+<nav class="navbar navbar-light bg-light fixed-top">
+    <div class="container-lg">
+      <div class="left-side d-inline-flex justify-content-between align-items-end  w-25">
+        <a class="navbar-brand ">TwYtter</a>
+        <h5 class="">{{title}}</h5>
+      </div>
       {% if user.is_authenticated %}
       <div class="d-flex nav-item">
+        <a class="mx-2 px-4 py-2 nav-link" href="{% url 'accounts:AccountDetails' pk=user.pk %}">{{ user.username|title}}</a>
         <a class="mx-2 px-4 py-2 nav-link" href="{% url 'HomePage' %}">Home</a>
+        <a class="mx-2 px-4 py-2 nav-link" href="{% url 'posts:User_Posts' username=user.username %}">Posts</a>
         <a class="mx-2 px-4 py-2 nav-link" href="{% url 'accounts:Logout' %}">Logout</a>
-        <a class="mx-2 px-4 py-2 nav-link" href="{% url 'accounts:Accounts' %}">Accounts</a>
       </div>
         {% else %}
       <div class="d-flex">
@@ -16,3 +19,4 @@
       {% endif %}
     </div>
 </nav>
+<div class="" style="height: 3.6rem;"></div>

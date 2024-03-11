@@ -1,0 +1,6 @@
+<form method="post" class="">
+    {% csrf_token %}
+    <p>Are you sure yoiu want to delete this?</p>
+    <input class="btn btn-danger" type="submit" value="Confirm">
+    <a href="{% url 'accounts:Accounts' %}" class="btn btn-primary text-decoration-none" type="reset" value="Cancel">Cancel</a>
+</form >

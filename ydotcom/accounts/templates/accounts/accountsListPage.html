@@ -6,27 +6,27 @@
         <div class=" row  my-4 ">
             <a class=" w-25 mx-auto btn btn-lg btn-primary text-decoration-none" href="{% url 'accounts:NewAccount' %}" style="min-width: 18rem;"> New Account</a>
         </div>
-        {% for user in user_list %}
+        {% for u in user_list %}
         
         <div class="mx-auto text-decoration-none card text-dark bg-light mb-3" style="width: 18rem;">
             <div class="card">
                 <div class="d-flex flex-row justify-content-between card-header">
-                    <div class="">{{ user.username|title }}</div>
+                    <div class="">{{ u.username|title }}</div>
                     <div class="">
                         <div style="font-size: 0.75em;">
-                            User ID:{{ user.id }}
+                            User ID:{{ u.id }}
                         </div>
                         <div style="font-size: 0.75em;">
-                            Profile ID:{{ user.user_profile.id }}
+                            Profile ID:{{ u.user_profile.id }}
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{% if user.user_profile.title %}{{ user.user_profile.title }} {% endif %}{{ user.user_profile.first_name|title }} {{ user.user_profile.surname|title }}</h5>
-                    <p class="card-text">Posts: {{ user.posts.all|length }}</p>
+                    <h5 class="card-title">{% if u.user_profile.title %}{{ u.user_profile.title }} {% endif %}{{ u.user_profile.first_name|title }} {{ u.user_profile.surname|title }}</h5>
+                    <p class="card-text">Posts: {{ u.posts.all|length }}</p>
                     <div class="btn-group">
-                        <a href="{% url 'accounts:AccountDetails' pk=user.pk %}" class="btn btn-info">View</a>
-                        <a href="#" class="btn btn-danger">Delete</a>
+                        <a href="{% url 'accounts:AccountDetails' pk=u.pk %}" class="btn btn-info">View</a>
+                        <a href="{% url 'accounts:AccountDelete' pk=u.pk %}" class="btn btn-danger">Delete</a>
                     </div>
                 </div> 
             </div>

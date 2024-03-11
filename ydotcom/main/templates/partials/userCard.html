@@ -1,13 +1,11 @@
 {% load static %}
 
 <li  class="start-50 translate-middle-x w-50 my-4 card text-decoration-none" style="width: 18rem;">
-  <a href="{% url 'posts:User_Posts' p.user.username  %}" class="text-decoration-none text-dark" href="">
     <div class="card-header">
-      <h5 class="d-inline">{{ p.user.username|title }}</h5>
+      <h5 class="d-inline"><a class="text-decoration-none text-body" href="{% url 'accounts:AccountDetails' pk=p.user.pk %}">@{{ p.user.username|title }}</a></h5>
       <h6 class="d-inline float-end text-muted">{{ p.timestamp| time }}</h6>
     </div>
-    <div class="card-body">
-      <p class="card-text ">{{ p.message }}</p>
-    </div>
-  </a>
+    <a href="{% url 'posts:User_Posts' p.user.username  %}" class="card-body text-decoration-none">
+      <p class="card-text  text-body">{{ p.message }}</p>
+    </a>
 </li>

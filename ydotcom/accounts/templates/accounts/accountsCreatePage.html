@@ -18,7 +18,6 @@
           </div>
           <div class="card-body">
                   <div class="row">
-                      
                       {% crispy user_form %}
                   </div>
         </div>
@@ -29,7 +28,6 @@
         </div>
         <div class="card-body">
                 <div class="row">
-                    {% csrf_token %}
                     {% crispy profile_form %}
                 </div>
       </div>
@@ -40,7 +38,9 @@
       </div>
       <div class="card-body">
         <div class="row">
-            {% crispy history_formset %}
+            {% for form in history_formset %}
+              {{ form|crispy }}
+            {% endfor %}
         </div>
     </div>
   </div>

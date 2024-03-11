@@ -2,7 +2,7 @@
 from django.db import transaction
 # Views
 from django.views.generic.edit import UpdateView
-from django.views.generic import View, ListView, DetailView, FormView
+from django.views.generic import View, ListView, DetailView, FormView, DeleteView
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.views import LoginView
 # Mixins
@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 # Authentication
 from django.contrib.auth import authenticate, login, logout
@@ -32,20 +32,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import UserProfileSerializer, InterestSerializer, EmploymentHistorySerializer, UserAccountSerializer, UserSerializer
 # Messages
 from django.contrib import messages
-# Email 
-# from django.template.loader import get_template
-# from django.core.mail import EmailMultiAlternatives
 
-
-
-# Create your views here.
-# class accountsPage(View):
-#     template_name = "accounts/accountsPage.html"
-#     title = "Hello, World. Welcome to the accounts Page"
-
-#     def get(self, request):
-#         context = {"title": self.title}
-#         return render(request, self.template_name, context)
     
 # This will change to a redirect
 class loginPage(LoginView):
@@ -104,7 +91,7 @@ class registerPage(View):
         if form.is_valid():
             form.save()
             messages.success(request, f"Congratulations! Your account has been created! You can now log in.")
-            return redirect('Login') 
+            return redirect('accounts:Login') 
         
         return render(request, self.template_name, context)
     
@@ -217,7 +204,11 @@ class NewAccount(View):
         })
 
 # AccountDeleteView
-    
+class AccountDeleteView(DeleteView):
+    model = User
+    template_name = "accounts/accountDeletePage.html"
+    success_url = reverse_lazy("accounts:Accounts")
+
 # UserProfileDetailView
 # UserProfileUpdateView
 class ProfileUpdateView(SingleObjectMixin, FormView):
@@ -256,7 +247,12 @@ class ProfileUpdateView(SingleObjectMixin, FormView):
 # UserEmploymentHistoryDetailView
 # UserEmploymentHistoryUpdateView
 # UserEmploymentHistoryDeleteView
-    
+class EmploymentHistoryDeleteView(DeleteView):
+    model = EmploymentHistory
+    success_url = "accounts:AccountDetails"
+    template_name = "accounts/accountDeletePage.html"
+
+
 # def testView(request):
 #     template = "accounts/test.html"
 #     context = {

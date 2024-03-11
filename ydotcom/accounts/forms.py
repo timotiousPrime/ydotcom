@@ -11,7 +11,6 @@ from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
 
 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField()
     class meta:
         model = User
         fields = ['username', 'password1', 'password2']
